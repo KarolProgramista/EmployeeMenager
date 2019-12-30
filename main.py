@@ -2,7 +2,7 @@ from tkinter import font
 import tkinter as tk
 import pickle
 import AddEmployee as ae
-import EmployersList as el
+import EmployeesList as el
 
 HEIGHT = 700
 WIDTH = 800
