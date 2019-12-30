@@ -14,19 +14,23 @@ root.title("Employee Menager")
 
 class Application(object):
 
+    # Constructor
     def __init__(self):
         self.WIDTH = WIDTH
         self.HEIGHT = HEIGHT
+        self.canvas = tk.Canvas(root, height=HEIGHT, width=WIDTH)
+        self.canvas.pack()
         self.load()
         self.draw()
 
+    # Drawing window and content
     def draw(self):
-        canvas = tk.Canvas(root, height=HEIGHT, width=WIDTH)
-        canvas.pack()
+
 
         leftFrame = tk.Frame(root, bg="#7f7f7f")
         leftFrame.place(relx=0, rely=0, relwidth=0.2, relheight=1)
 
+        # Drawing tool bar
         self.drawSubmenu()
 
         count = 0
@@ -43,6 +47,7 @@ class Application(object):
         self.text = tk.Label(rightFrame, font=40)
         self.text.place(x=0, y=30, relwidth=1, relheight=0.9, width=- 18)
 
+    # Drawing toolbar
     def drawSubmenu(self):
         self.menu = tk.Menu(root)
 
@@ -55,6 +60,7 @@ class Application(object):
 
         root.config(menu=self.menu, width=50, height=30)
 
+    # Showing info about person
     def showInfo(self, name):
         print(name)
         final_str = (f"""
@@ -66,6 +72,7 @@ class Application(object):
 
         self.text['text'] = final_str
 
+    # Saveing data
     def save(self):
         employersSaveFile = open('ESF.dat', 'wb')
         mailsSaveFile = open('MSF.dat', 'wb')
@@ -85,6 +92,7 @@ class Application(object):
         specSaveFile.close()
         salariesSaveFile.close()
 
+    # Loadnig data
     def load(self):
         try:
             employersSaveFile = open('ESF.dat', 'rb')
@@ -108,6 +116,7 @@ class Application(object):
             print("There aren't save files.")
 
 
+# Starting app
 app = Application()
 app.draw
 root.mainloop()
