@@ -7,6 +7,8 @@ WIDTH = 800
 def draw():
     root = tk.Tk()
     root.title("Add Employee")
+    root.resizable(False, False)
+
     canvas = tk.Canvas(root, height=HEIGHT, width=WIDTH)
     canvas.pack()
 
@@ -47,14 +49,15 @@ def draw():
     SalaryHourLabel.place(relx=0.7, rely=0.5, relwidth=0.1, relheight=0.05)
 
     addButton = tk.Button(frame, text="sumbit", command=lambda: Add(
-        nameEntry.get(), MaliEntry.get(), AdresEntry.get(), SpecEntry.get(), SalaryEntry.get()))
+        nameEntry.get(), MaliEntry.get(), AdresEntry.get(), SpecEntry.get(), SalaryEntry.get(), root))
     addButton.place(relx=0.2, rely=0.6, relwidth=0.1, relheight=0.05)
 
 
-def Add(name, mail, adres, spec, salary):
-    el.Employers.append(name)
+def Add(name, mail, adres, spec, salary, window):
+    el.Employees.append(name)
     el.Mails[name] = mail
     print(el.Adreses)
     el.Adreses[name] = adres
-    el.Specialization[name] = adres
+    el.Specialization[name] = spec
     el.Salaries[name] = salary
+    window.destroy()

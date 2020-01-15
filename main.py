@@ -2,7 +2,9 @@ from tkinter import font
 import tkinter as tk
 import pickle
 import AddEmployee as ae
+import DelEmployee as de
 import EmployeesList as el
+import atexit
 
 HEIGHT = 700
 WIDTH = 800
@@ -10,7 +12,7 @@ WIDTH = 800
 root = tk.Tk()
 
 root.title("Employee Menager")
-
+root.resizable(False, False)
 
 class Application(object):
 
@@ -34,10 +36,10 @@ class Application(object):
         self.drawSubmenu()
 
         count = 0
-        for a in el.Employers:
+        for a in el.Employees:
             newname = ('button' + str(count))
             print(newname)
-            newname = tk.Button(leftFrame, text=a, command=lambda index=count: self.showInfo(el.Employers[index]))
+            newname = tk.Button(leftFrame, text=a, command=lambda index=count: self.showInfo(el.Employees[index]))
             newname.grid(row=count, column=1)
             count += 1
 
@@ -55,6 +57,7 @@ class Application(object):
         self.menu.add_cascade(label="Employees", menu=submenu)
 
         submenu.add_command(label="Add", command=lambda: ae.draw())
+        submenu.add_command(label="Delete", command=lambda: de.draw())
         submenu.add_command(label="Refresh", command=lambda: self.draw())
         submenu.add_command(label="Save Configuration", command=lambda: self.save())
 
@@ -74,49 +77,40 @@ class Application(object):
 
     # Saveing data
     def save(self):
-        employersSaveFile = open('ESF.dat', 'wb')
-        mailsSaveFile = open('MSF.dat', 'wb')
-        adresesSaveFile = open('ASF.dat', 'wb')
-        specSaveFile = open('SSF.dat', 'wb')
-        salariesSaveFile = open('SaSF.dat', 'wb')
+        save_file = open('save.dat', 'wb')
 
-        pickle.dump(el.Employers, employersSaveFile)
-        pickle.dump(el.Mails, mailsSaveFile)
-        pickle.dump(el.Adreses, adresesSaveFile)
-        pickle.dump(el.Specialization, specSaveFile)
-        pickle.dump(el.Salaries, salariesSaveFile)
+        save_data = {
+            "employees" : el.Employees,
+            "mails" : el.Mails,
+            "adreses" : el.Adreses,
+            "spec" : el.Specialization,
+            "salaries" : el.Salaries
+        }
 
-        employersSaveFile.close()
-        mailsSaveFile.close()
-        adresesSaveFile.close()
-        specSaveFile.close()
-        salariesSaveFile.close()
+        pickle.dump(save_data, save_file)
+
+        save_file.close()
 
     # Loadnig data
     def load(self):
         try:
-            employersSaveFile = open('ESF.dat', 'rb')
-            mailsSaveFile = open('MSF.dat', 'rb')
-            adresesSaveFile = open('ASF.dat', 'rb')
-            specSaveFile = open('SSF.dat', 'rb')
-            salariesSaveFile = open('SaSF.dat', 'rb')
+            load_file = open('save.dat', 'rb')
 
-            el.Employers = pickle.load(employersSaveFile)
-            el.Mails = pickle.load(mailsSaveFile)
-            el.Adreses = pickle.load(adresesSaveFile)
-            el.Specialization = pickle.load(specSaveFile)
-            el.Salaries = pickle.load(salariesSaveFile)
+            load_data = pickle.load(load_file)
 
-            employersSaveFile.close()
-            mailsSaveFile.close()
-            adresesSaveFile.close()
-            specSaveFile.close()
-            salariesSaveFile.close()
-        except:
-            print("There aren't save files.")
+            el.Employees = load_data["employees"]
+            el.Mails = load_data["mails"]
+            el.Adreses = load_data["adreses"]
+            el.Specialization = load_data["spec"]
+            el.Salaries = load_data["salaries"]
+
+            load_file.close()
+        except FileNotFoundError:
+            print("There aren't save file")
 
 
 # Starting app
 app = Application()
+atexit.register(app.save)
 app.draw
 root.mainloop()
