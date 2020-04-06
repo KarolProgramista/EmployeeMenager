@@ -5,6 +5,7 @@ WIDTH = 200
 
 def draw():
     root = tk.Tk()
+    names = el.Employees
     root.title("Delete Employee")
     root.resizable(False, False)
 
@@ -17,10 +18,12 @@ def draw():
     name_label = tk.Label(frame, text="Name")
     name_label.place(relx=0.05, rely=0.05, relheight=0.2, relwidth=0.9)
 
-    name_entry = tk.Entry(frame)
-    name_entry.place(relx=0.05, rely=0.3, relwidth=0.9, relheight=0.3)
+    name = tk.StringVar(root)
+    name.set(names[0])
+    choiceMenu = tk.OptionMenu(frame, name, *names)
+    choiceMenu.place(relx=0.05, rely=0.3, relwidth=0.9, relheight=0.3)
 
-    submit_button = tk.Button(frame, text="submit", command=lambda : delete(name_entry.get(), root))
+    submit_button = tk.Button(frame, text="submit", command=lambda : delete(name.get(), root))
     submit_button.place(relx=0.05, rely=0.65, relwidth=0.9, relheight=0.3)
 
 def delete(name, window):
