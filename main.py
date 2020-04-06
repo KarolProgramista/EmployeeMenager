@@ -1,4 +1,3 @@
-#TODO: in EmployeeAdd add dropdown menu to choose dayly, weekly or monthly salary for employee
 from tkinter import font
 import tkinter as tk
 import pickle
