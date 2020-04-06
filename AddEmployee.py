@@ -6,6 +6,7 @@ WIDTH = 800
 
 def draw():
     root = tk.Tk()
+    perTimeOptions = ["per hour", "per day", "per week", "per month"]
     root.title("Add Employee")
     root.resizable(False, False)
 
@@ -44,20 +45,22 @@ def draw():
 
     SalaryEntry = tk.Entry(frame)
     SalaryEntry.place(relx=0.3, rely=0.5, relwidth=0.4, relheight=0.05)
-
-    SalaryHourLabel = tk.Label(frame, text="per hour")
-    SalaryHourLabel.place(relx=0.7, rely=0.5, relwidth=0.1, relheight=0.05)
+    
+    perTime = tk.StringVar(root)
+    perTime.set(perTimeOptions[0])
+    perTimeDropdown = tk.OptionMenu(frame, perTime, *perTimeOptions)
+    perTimeDropdown.place(relx=0.7, rely=0.5, relwidth=0.2, relheight=0.05)
 
     addButton = tk.Button(frame, text="sumbit", command=lambda: Add(
-        nameEntry.get(), MaliEntry.get(), AdresEntry.get(), SpecEntry.get(), SalaryEntry.get(), root))
+        nameEntry.get(), MaliEntry.get(), AdresEntry.get(), SpecEntry.get(), SalaryEntry.get(), perTime.get() ,root))
     addButton.place(relx=0.2, rely=0.6, relwidth=0.1, relheight=0.05)
 
 
-def Add(name, mail, adres, spec, salary, window):
+def Add(name, mail, adres, spec, salary, salaryTime ,window):
     el.Employees.append(name)
     el.Mails[name] = mail
     print(el.Adreses)
     el.Adreses[name] = adres
     el.Specialization[name] = spec
-    el.Salaries[name] = salary
+    el.Salaries[name] = salary + " " + salaryTime
     window.destroy()
