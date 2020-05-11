@@ -4,6 +4,7 @@ import pickle
 import AddEmployee as ae
 import DelEmployee as de
 import EmployeesList as el
+import EditEmployee as ee
 import atexit
 
 HEIGHT = 700
@@ -58,6 +59,7 @@ class Application(object):
 
         submenu.add_command(label="Add", command=lambda: ae.draw())
         submenu.add_command(label="Delete", command=lambda: de.draw())
+        submenu.add_command(label="Edit", command=lambda: ee.draw())
         submenu.add_command(label="Refresh", command=lambda: self.draw())
         submenu.add_command(label="Save Configuration", command=lambda: self.save())
 
